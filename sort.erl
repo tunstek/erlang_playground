@@ -1,5 +1,5 @@
 -module(sort).
--export([bubble/1, insertion/1]).
+-export([bubble/1, insertion/1, quick/1]).
 -compile([debug_info]).
 
 bubble([]) ->
@@ -40,6 +40,18 @@ insert([H|T], E) when E < H ->
     lists:append(lists:append([E], [H]), T).
 
 
+
+quick([]) ->
+    [];
+quick([H|T]) ->
+    qpartition(H, T, [], []).
+
+qpartition(P, [], Lo, Hi) ->
+    lists:append(lists:append(quick(Lo), [P]), quick(Hi));
+qpartition(P, [H|T], Lo, Hi) when H =< P ->
+    qpartition(P, T, [H|Lo], Hi);
+qpartition(P, [H|T], Lo, Hi) when H > P ->
+     qpartition(P, T, Lo, [H|Hi]).
 
 
 
